@@ -15,5 +15,8 @@ services:
       timeout: 30s
       interval: 1m
       retries: 3
+    volumes:
+      - ./etc_conf:/etc/conf
     environment:
       BOT_TOKEN: test
+      NODE_ENV: production

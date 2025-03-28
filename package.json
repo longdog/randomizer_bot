@@ -9,6 +9,11 @@
   },
   "type": "module",
   "dependencies": {
-    "@maxhub/max-bot-api": "^0.2.1"
-  }
+    "@maxhub/max-bot-api": "^0.2.1",
+    "firebase-admin": "^13.2.0"
+  },
+  "trustedDependencies": [
+    "@firebase/util",
+    "protobufjs"
+  ]
 }
