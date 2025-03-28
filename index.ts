@@ -7,6 +7,9 @@ const bot = new Bot(BOT_TOKEN!);
 
 const db = await makeDbService();
 
+const getRandomNum = (len: number) =>
+  ((len * crypto.getRandomValues(new Uint32Array(1))[0]) / 2 ** 32) | 0;
+
 bot.command("start", (ctx) => {
   const user = ctx.message?.sender;
   const userName = user?.name || user?.username || "незнакомец";
@@ -42,7 +45,8 @@ bot.command("draw", async (ctx) => {
   try {
     const { members: allMembers } = await bot.api.getChatMembers(chatId);
     const members = allMembers.filter((member) => !member.is_bot);
-    const randomUser = members[Math.floor(Math.random() * members.length)];
+    // const randomUser = members[Math.floor(Math.random() * members.length)];
+    const randomUser = members[getRandomNum(members.length)];
     bot.api.sendMessageToChat(
       chatId,
       `**Победитель:** ${randomUser.name} @${
