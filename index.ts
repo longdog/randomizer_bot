@@ -45,9 +45,9 @@ bot.command("draw", async (ctx) => {
     const randomUser = members[Math.floor(Math.random() * members.length)];
     bot.api.sendMessageToChat(
       chatId,
-      `**Победитель:** ${randomUser.name} (@${
+      `**Победитель:** ${randomUser.name} @${
         randomUser.username || randomUser.user_id
-      })!`,
+      } !`,
       { format: "markdown" }
     );
   } catch (error) {
