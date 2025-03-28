@@ -9,7 +9,7 @@ bot.command("start", (ctx) => {
   const userName = user?.name || user?.username || "незнакомец";
   if (user) {
     ctx.reply(`✋ Привет, ${userName}! 
-Я помогу тебе провести розыгрыш в групповом чате. Просто добавь меня чат и дай команду /draw`);
+Я помогу тебе провести розыгрыш в групповом чате. Просто добавь меня в чат и дай команду /draw`);
   }
 });
 
@@ -21,11 +21,12 @@ bot.command("draw", async (ctx) => {
   console.log("draw");
   const chatId = ctx.chatId;
   try {
-    const { members } = await bot.api.getChatMembers(chatId);
+    const { members: allMembers } = await bot.api.getChatMembers(chatId);
+    const members = allMembers.filter((member) => !member.is_bot);
     const randomUser = members[Math.floor(Math.random() * members.length)];
     bot.api.sendMessageToChat(
       chatId,
-      `**Победитель:** ${randomUser.name}(@${
+      `**Победитель:** ${randomUser.name} (@${
         randomUser.username || randomUser.user_id
       })!`,
       { format: "markdown" }
