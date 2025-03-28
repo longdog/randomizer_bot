@@ -47,13 +47,18 @@ bot.command("draw", async (ctx) => {
     const members = allMembers.filter((member) => !member.is_bot);
     // const randomUser = members[Math.floor(Math.random() * members.length)];
     const randomUser = members[getRandomNum(members.length)];
-    bot.api.sendMessageToChat(
-      chatId,
-      `**Победитель:** ${randomUser.name} @${
-        randomUser.username || randomUser.user_id
-      } !`,
-      { format: "markdown" }
-    );
+    bot.api.sendMessageToChat(chatId, `**Победитель:** ${randomUser.name}!`, {
+      format: "markdown",
+      attachments: [
+        {
+          type: "contact",
+          payload: {
+            name: randomUser.name,
+            contact_id: randomUser.user_id,
+          },
+        },
+      ],
+    });
   } catch (error) {
     console.log("error", error);
     bot.api.sendMessageToChat(
