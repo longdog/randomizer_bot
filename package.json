@@ -1,0 +1,14 @@
+{
+  "name": "randomizer",
+  "module": "index.ts",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "@maxhub/max-bot-api": "^0.2.1"
+  }
+}
