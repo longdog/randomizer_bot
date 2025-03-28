@@ -8,4 +8,4 @@ RUN bun install
 
 FROM install AS run
 COPY . /app
-CMD ["bun", "run", "src/index.ts"]
+CMD ["bun", "run", "index.ts"]
