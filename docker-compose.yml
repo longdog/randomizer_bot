@@ -1,0 +1,19 @@
+version: "3.7"
+services:
+  app:
+    image: ghcr.io/longdog/randomizer_bot
+    container_name: randomizer
+    pull_policy: always
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 30s
+        window: 120s
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep '[b]un' || exit 1"]
+      timeout: 30s
+      interval: 1m
+      retries: 3
+    environment:
+      BOT_TOKEN: test
