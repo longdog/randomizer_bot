@@ -1,4 +1,5 @@
 import { Bot } from "@maxhub/max-bot-api";
+import { err, ok } from "neverthrow";
 import { makeDbService } from "./dbService";
 
 const { BOT_TOKEN } = process.env;
@@ -9,6 +10,23 @@ const db = await makeDbService();
 
 const getRandomNum = (len: number) =>
   ((len * crypto.getRandomValues(new Uint32Array(1))[0]) / 2 ** 32) | 0;
+
+bot.api.setMyCommands([
+  { name: "start", description: "Начать работу с ботом" },
+  { name: "draw", description: "Начать розыгрыш" },
+  {
+    name: "rand",
+    description: "max Сгенерировать случайное число от 1 до max",
+  },
+]);
+
+const prepareMax = (maxStr: string) => {
+  const max = parseInt(maxStr.trim().slice(0, 6));
+  if (isNaN(max) || max < 1) {
+    return err("Неверный формат. max должен быть числом от 1 до 999999");
+  }
+  return ok(getRandomNum(max));
+};
 
 bot.command("start", (ctx) => {
   const user = ctx.message?.sender;
@@ -40,12 +58,20 @@ bot.on("bot_added", async (ctx) => {
   });
 });
 
+bot.hears(/rand (.*)/, async (ctx) => {
+  const maxStr = ctx.match?.[1] || "";
+
+  prepareMax(maxStr).match(
+    (num) => ctx.reply(`${getRandomNum(num) + 1}`),
+    (err) => ctx.reply(err)
+  );
+});
+
 bot.command("draw", async (ctx) => {
   const chatId = ctx.chatId;
   try {
     const { members: allMembers } = await bot.api.getChatMembers(chatId);
     const members = allMembers.filter((member) => !member.is_bot);
-    // const randomUser = members[Math.floor(Math.random() * members.length)];
     const randomUser = members[getRandomNum(members.length)];
     bot.api.sendMessageToChat(chatId, `**Победитель:** ${randomUser.name}!`, {
       format: "markdown",
