@@ -20,6 +20,10 @@ bot.api.setMyCommands([
   },
 ]);
 
+bot.catch((err, ctx) => {
+  console.error(err, ctx);
+});
+
 const prepareMax = (maxStr: string) => {
   const max = parseInt(maxStr.trim().slice(0, 6));
   if (isNaN(max) || max < 1) {
