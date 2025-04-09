@@ -10,11 +10,7 @@ services:
         condition: on-failure
         delay: 30s
         window: 120s
-    healthcheck:
-      test: ["CMD-SHELL", "ps aux | grep '[b]un' || exit 1"]
-      timeout: 30s
-      interval: 1m
-      retries: 3
+    command: sh -c "cd /app && bun run index.ts"
     volumes:
       - ./etc_conf:/etc/conf
     environment:

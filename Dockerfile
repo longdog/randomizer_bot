@@ -1,4 +1,4 @@
-FROM oven/bun:alpine AS base
+FROM oven/bun:canary-alpine AS base
 RUN apk --no-cache add curl
 WORKDIR /app
 
