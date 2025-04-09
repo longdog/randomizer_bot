@@ -2,6 +2,8 @@ import { Bot } from "@maxhub/max-bot-api";
 import { err, ok } from "neverthrow";
 import { makeDbService } from "./dbService";
 
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const { BOT_TOKEN } = process.env;
 
 const bot = new Bot(BOT_TOKEN!);
